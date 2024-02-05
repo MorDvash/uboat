@@ -25,8 +25,8 @@ services:
 
   localstack_init:
     build:
-      context: ./localstack
-      dockerfile: localstack_init.Dockerfile
+      context: localstack
+      dockerfile: localstack/localstack_init.Dockerfile
     command: ./localstack_init.sh
     env_file:
       - .env
