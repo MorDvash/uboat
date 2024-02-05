@@ -239,7 +239,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+application/.env
 .venv
 env/
 venv/
@@ -317,4 +317,4 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/rust,python,pycharm,venv
 .DS_Store
-.env
+application/.env

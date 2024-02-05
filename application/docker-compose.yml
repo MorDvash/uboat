@@ -1,0 +1,44 @@
+version: "3"
+services:
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566-4582:4566-4582"
+      - "8055:8080"
+    env_file:
+      - .env
+    environment:
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    user: "${UID}:${GID}"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./samples:/tmp/localstack/data
+    tmpfs:
+      - /tmp/localstack:exec,mode=600
+    networks:
+      - localstack_network
+
+  localstack_init:
+    build:
+      context: ./localstack
+      dockerfile: localstack_init.Dockerfile
+    command: ./localstack_init.sh
+    env_file:
+      - .env
+    depends_on:
+      - localstack
+    environment:
+      - LOCALSTACK_URL=$LOCALSTACK_URL
+    volumes:
+      - ./samples:/tmp/localstack/data
+    networks:
+      - localstack_network
+
+
+networks:
+  localstack_network:
