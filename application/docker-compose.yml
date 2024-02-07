@@ -17,16 +17,13 @@ services:
     user: "${UID}:${GID}"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - ./samples:/tmp/localstack/data
-    tmpfs:
-      - /tmp/localstack:exec,mode=600
     networks:
       - localstack_network
 
   localstack_init:
     build:
       context: localstack
-      dockerfile: localstack/localstack_init.Dockerfile
+      dockerfile: localstack_init.Dockerfile
     command: ./localstack_init.sh
     env_file:
       - .env
@@ -34,8 +31,6 @@ services:
       - localstack
     environment:
       - LOCALSTACK_URL=$LOCALSTACK_URL
-    volumes:
-      - ./samples:/tmp/localstack/data
     networks:
       - localstack_network
 
